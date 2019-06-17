@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>myWorld</title>
+    <style>
+        *{margin:0px;padding:0px;}
+        #allcanvas{
+            position:relative;
+			height:200px;
+            margin:0 auto;
+			background-color:#FF0000;
+        }
+        #backcanvas{
+            position:absolute;
+            bottom:0px;
+            left:0px;
+            z-index:0;
+        }
+        #fontcanvas{
+            position:absolute;
+            bottom:0px;
+            left:0px;
+			background-color:#000000;
+            z-index:1;
+        }
+    </style>
+</head>
+<body>
+	<div id="allcanvas">		
+		<canvas id="backcanvas" width="800" height="600" ></canvas>
+		<canvas id="fontcanvas" width="800" height="600" ></canvas>
+	</div>
+</body>
+
+<script>
+function webSocket(){
+    if ("WebSocket" in window){
+	   
+	   
+	   // 打开一个 web socket
+	   var ws = new WebSocket("ws://localhost:8080/worldserver");
+		
+	   ws.onopen = function()
+	   {
+		  // Web Socket 已连接上，使用 send() 方法发送数据
+		  ws.send("发送数据");
+		  alert("数据发送中...");
+	   };
+		
+	   ws.onmessage = function (evt) 
+	   { 
+		  var received_msg = evt.data;
+		  alert("数据已接收...");
+	   };
+		
+	   ws.onclose = function()
+	   { 
+		  // 关闭 websocket
+		  alert("连接已关闭..."); 
+	   };
+	}
+	
+	else
+	{
+	   // 浏览器不支持 WebSocket
+	   alert("您的浏览器不支持 WebSocket!");
+	}
+}
+document.body.onload=function(){
+  webSocket();
+  initEnvironment();
+  //game start
+  game();
+  
+}
+</script>
+<script type="text/javascript" src="./js/player.js"></script>
+<script type="text/javascript" src="./js/tree.js"></script>
+<script type="text/javascript" src="./js/chat.js"></script>
+<script type="text/javascript" src="./js/controller.js"></script>
+<script type="text/javascript" src="./js/config.js"></script>
+<script type="text/javascript" src="./js/environment.js"></script>
+<script type="text/javascript" src="./js/algorithmfunction.js"></script>
+<script type="text/javascript" src="./js/main.js"></script>
+
+</html>
