@@ -9,7 +9,6 @@
             position:relative;
 			height:200px;
             margin:0 auto;
-			background-color:#FF0000;
         }
         #backcanvas{
             position:absolute;
@@ -21,7 +20,6 @@
             position:absolute;
             bottom:0px;
             left:0px;
-			background-color:#000000;
             z-index:1;
         }
     </style>
@@ -34,54 +32,20 @@
 </body>
 
 <script>
-function webSocket(){
-    if ("WebSocket" in window){
-	   
-	   
-	   // 打开一个 web socket
-	   var ws = new WebSocket("ws://localhost:8080/worldserver");
-		
-	   ws.onopen = function()
-	   {
-		  // Web Socket 已连接上，使用 send() 方法发送数据
-		  ws.send("发送数据");
-		  alert("数据发送中...");
-	   };
-		
-	   ws.onmessage = function (evt) 
-	   { 
-		  var received_msg = evt.data;
-		  alert("数据已接收...");
-	   };
-		
-	   ws.onclose = function()
-	   { 
-		  // 关闭 websocket
-		  alert("连接已关闭..."); 
-	   };
-	}
-	
-	else
-	{
-	   // 浏览器不支持 WebSocket
-	   alert("您的浏览器不支持 WebSocket!");
-	}
-}
 document.body.onload=function(){
-  webSocket();
-  initEnvironment();
-  //game start
   game();
-  
 }
 </script>
-<script type="text/javascript" src="./js/player.js"></script>
-<script type="text/javascript" src="./js/tree.js"></script>
-<script type="text/javascript" src="./js/chat.js"></script>
-<script type="text/javascript" src="./js/controller.js"></script>
+<script type="text/javascript" src="./js/obj/player.js"></script>
+<script type="text/javascript" src="./js/obj/tree.js"></script>
+<script type="text/javascript" src="./js/obj/chat.js"></script>
+<script type="text/javascript" src="./js/obj/controller.js"></script>
+<script type="text/javascript" src="./js/obj/position.js"></script>
+<script type="text/javascript" src="./js/socket/socketclient.js"></script>
+<script type="text/javascript" src="./js/socket/networkchange.js"></script>
+<script type="text/javascript" src="./js/function/function.js"></script>
 <script type="text/javascript" src="./js/config.js"></script>
-<script type="text/javascript" src="./js/environment.js"></script>
-<script type="text/javascript" src="./js/algorithmfunction.js"></script>
-<script type="text/javascript" src="./js/main.js"></script>
+<!--<script type="text/javascript" src="./js/mainlocal.js"></script>-->
+<script type="text/javascript" src="./js/mainnetwork.js"></script>
 
 </html>

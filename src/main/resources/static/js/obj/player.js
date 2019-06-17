@@ -16,7 +16,7 @@ playerObj.prototype.init=function(width,height){
 }
 
 playerObj.prototype.draw=function(stage){
-	console.log("x:"+this.x+"y:"+this.y)
+	//console.log("x:"+this.x+"y:"+this.y)
     stage.save();
 	if(this.isPlayer){
         stage.translate(gameScreenWidth/2,gameScreenHeight/2);

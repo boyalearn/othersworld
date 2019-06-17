@@ -26,7 +26,7 @@ controllerObj.prototype.run=function(chat){
 		this.role.angle+=0.05*Math.PI;
 	}
 }
-var speed=0.1;
+
 document.onkeydown = function(e) {
 	var ev = (typeof event!= 'undefined') ? window.event : e;
 	if(ev.keyCode == 40) {

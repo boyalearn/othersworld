@@ -1,3 +1,22 @@
+
+function game(){
+    init();
+    gameloop();	
+}
+function init(){
+	initEnvironment();
+	//预留使用方式
+	//loadMap();
+	initGameRole();
+}
+/**
+ * 游戏循环
+ */
+function gameloop(){
+	requestAnimationFrame(gameloop);
+    getIntervalTime();
+	drawBackground();
+}
 function initEnvironment(){
   gameScreenWidth=document.documentElement.clientWidth;
   gameScreenHeight=document.documentElement.clientHeight;
@@ -13,8 +32,6 @@ function initEnvironment(){
   backcanvas.setAttribute("height", gameScreenHeight);
   fontcanvas.setAttribute("height", gameScreenHeight);
   setCanvasContext("2d");
-  loadMap();
-  initGameRole();
 }
 
 function setCanvasContext(type){
@@ -31,35 +48,32 @@ function getIntervalTime(){
 	intervalTime=Date.now()-lastTime;
 	lastTime=Date.now();
 }
-var player=new playerObj();
-var controller=new controllerObj();
-var tree1=new treeObj();
-var tree2=new treeObj();
-var tree3=new treeObj();
-var tree4=new treeObj();
-var tree5=new treeObj();
-var chat=new chatObj();
 
-function initGameRole(){
-	chat.init(gameScreenWidth/2,gameScreenHeight/2,"爱的魔力转圈圈");
-	player.init(80,80);
-	controller.init(player);
-	tree1.init(100,100,300,400);
-	tree2.init(100,100,400,400);
-	tree3.init(100,100,500,400);
-	tree4.init(100,100,600,400);
-	tree5.init(100,100,700,400);
-}
-function drawBackground(){
-	fontctx.beginPath(); 
-    fontctx.fillStyle="#000";
-    fontctx.fillRect(0,0,gameScreenWidth,gameScreenHeight);
-	controller.run(chat);
-	player.draw(fontctx);
-	drawWrap(player,tree1,fontctx);
-	drawWrap(player,tree2,fontctx);
-	drawWrap(player,tree3,fontctx);
-    drawWrap(player,tree4,fontctx);
-	drawWrap(player,tree5,fontctx);
+
+/**
+ * @param r  主角儿对象
+ * @param o  非主角儿对象
+ * @returns 非主角儿再屏幕上的x,y坐表
+ */
+function getOtherPosition(r,o){
+	var position=new positionObj();
+	/**
+	 * gameScreenWidth   
+     * gameScreenHeight 
+	 */
+	position.x=gameScreenWidth/2-(r.x-o.x);
+	position.y=gameScreenHeight/2-(r.y-o.y);
+	return position;
 }
 
+/**
+ * @param r  主角儿对象
+ * @param o  非主角儿对象
+ * @param stage canvasCtx
+ */
+function drawWrap(r,o,stage){
+	var position=getOtherPosition(r,o);
+	if(position.x>0 && position.x<gameScreenWidth && position.y>0 && position.y< gameScreenHeight){
+		o.draw(stage,position.x,position.y);
+	}
+}

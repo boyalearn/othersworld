@@ -1,0 +1,24 @@
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+#allcanvas {
+	position: relative;
+	height: 200px;
+	margin: 0 auto;
+}
+
+#backcanvas {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	z-index: 0;
+}
+
+#fontcanvas {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	z-index: 1;
+}
