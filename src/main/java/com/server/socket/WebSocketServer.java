@@ -78,7 +78,7 @@ public class WebSocketServer {
 					result.setOptType("loadMap");
 					this.sendMessage(JSONUtil.objectToJson(result));
 				} catch (IOException e) {
-					logger.error("消息发送异常:{}" + e.getMessage());
+					logger.error("消息发送异常:{}" , e.getMessage());
 				}
 			} break;
 			
@@ -88,7 +88,7 @@ public class WebSocketServer {
 					try {
 						item.sendMessage(message);
 					} catch (IOException e) {
-						logger.error("消息发送异常:{}" + e.getMessage());
+						logger.error("消息发送异常:{}" ,e.getMessage());
 						continue;
 			        }
 		        }
