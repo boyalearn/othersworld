@@ -17,9 +17,10 @@ function find(key) {
 function remove(key) {
 	delete this.datastore[key];
 }
-function showAll() {
+function showAll(callBack) {
 	for (var key in this.datastore) {
-		console.log(key + " -> " + this.datastore[key]);
+		callBack(key,this.datastore[key]);
+
 	}
 }
 function count() {

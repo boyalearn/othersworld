@@ -1,8 +1,8 @@
 var playerObj=function(){
 	this.width;
 	this.height;
-    this.x=300;
-    this.y=400;
+    this.x=0;
+    this.y=0;
 	this.imgs;
 	this.isPlayer=true;
 	this.angle=0*Math.PI;
