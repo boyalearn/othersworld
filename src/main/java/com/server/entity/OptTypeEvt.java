@@ -1,6 +1,12 @@
 package com.server.entity;
 
 public class OptTypeEvt<T> {
+	
+	/**
+	 * loadSession 、  loadMap
+	 * 
+	 */
+	
 	private String optType;
 	
 	private T object;

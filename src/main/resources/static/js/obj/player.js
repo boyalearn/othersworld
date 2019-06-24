@@ -8,20 +8,21 @@ var playerObj=function(){
 	this.angle=0*Math.PI;
 
 }
-playerObj.prototype.init=function(width,height){
+playerObj.prototype.init=function(width,height,x,y){
 	this.width=width;
 	this.height=height;
+	this.x=x;
+	this.y=y;
     this.imgs=new Image();
     this.imgs.src="./images/role/player.png";
 }
 
-playerObj.prototype.draw=function(stage){
-	//console.log("x:"+this.x+"y:"+this.y)
+playerObj.prototype.draw=function(stage,x,y){
     stage.save();
 	if(this.isPlayer){
         stage.translate(gameScreenWidth/2,gameScreenHeight/2);
 	}else{
-		stage.translate(this.x,this.y);
+		stage.translate(x,y);
 	}
 	stage.rotate(this.angle)
     stage.drawImage(this.imgs,-this.width*0.5,-this.height*0.5,this.width,this.height);

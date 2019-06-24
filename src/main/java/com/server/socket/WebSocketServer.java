@@ -40,16 +40,37 @@ public class WebSocketServer {
 	/**
 	 * 连接建立成功调用的方法
 	 * @param session  可选的参数。session为与某个客户端的连接会话，需要通过它来给客户端发送数据
+	 * @throws IOException 
 	 */
 	@OnOpen
-    public void onOpen(Session session,EndpointConfig config){
+    public void onOpen(Session session,EndpointConfig config) throws IOException{
 		this.session = session;
-		@SuppressWarnings("unused")
 		HttpSession httpSession= (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+		OptTypeEvt<String> sessionMap=new OptTypeEvt<String>();
+		sessionMap.setObject(httpSession.getId());
+		sessionMap.setOptType("loadSession");
+		this.sendMessage(JSONUtil.objectToJson(sessionMap));
+		GameEvt gameEvt=new GameEvt();
+		gameEvt.setId(httpSession.getId());
+		gameEvt.setType("2");
+		gameEvt.setX("0");
+		gameEvt.setY("0");
+		
+		gameMap.put(httpSession.getId(),gameEvt);
 	    webSocketSet.add(this);     //加入set中
 	    addOnlineCount();           //在线数加1
-	   
-	    logger.info("有新连接加入！当前在线人数为{}" + getOnlineCount());
+	    OptTypeEvt<Map<String,GameEvt>> result=new OptTypeEvt<Map<String,GameEvt>>();
+		result.setObject(gameMap);
+		result.setOptType("loadMap");
+		for(WebSocketServer item: webSocketSet){
+			try {
+				item.sendMessage(JSONUtil.objectToJson(result));
+			} catch (IOException e) {
+				logger.error("消息发送异常:{}" ,e.getMessage());
+				continue;
+	        }
+        }
+	    logger.info("有新连接加入！当前在线人数为{}",getOnlineCount());
 	}
 	/**
 	 * 连接关闭调用的方法
