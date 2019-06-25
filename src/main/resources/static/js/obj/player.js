@@ -13,8 +13,11 @@ playerObj.prototype.init=function(width,height,x,y){
 	this.height=height;
 	this.x=x;
 	this.y=y;
-    this.imgs=new Image();
-    this.imgs.src="./images/role/player.png";
+    this.imgs=[];
+    this.imgs[0]=new Image();
+    this.imgs[0].src="./images/role/player1.png";
+    this.imgs[1]=new Image();
+    this.imgs[1].src="./images/role/player2.png";
 }
 
 playerObj.prototype.draw=function(stage,x,y){
@@ -24,7 +27,8 @@ playerObj.prototype.draw=function(stage,x,y){
 	}else{
 		stage.translate(x,y);
 	}
+	console.log(Math.abs(parseInt(this.x)%2));
 	stage.rotate(this.angle)
-    stage.drawImage(this.imgs,-this.width*0.5,-this.height*0.5,this.width,this.height);
+    stage.drawImage(this.imgs[Math.abs(parseInt(this.x)%2)],-this.width*0.5,-this.height*0.5,this.width,this.height);
     stage.restore();
 }

@@ -31,14 +31,24 @@ var netWorkChange=function(evt){
 			}
 			
 			
-		};break;
+		}
+		break;
 		
-		
+        case "roleChange":{
+        	
+
+        	if(data.id!=JSESSIONID){
+            	var controller=controllerMap.find(data.id);
+            	controller.setDirection(data.direction);
+        	}
+		}
+		break;
 		
 		case "loadSession":{
 			
 			JSESSIONID=data;
-		};break;
+		}
+		break;
 		
 		
 		

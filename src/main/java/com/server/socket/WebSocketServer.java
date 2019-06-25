@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.server.entity.GameEvt;
+import com.server.entity.MoveEvt;
 import com.server.entity.OptTypeEvt;
 import com.server.util.JSONUtil;
 
@@ -29,6 +30,8 @@ public class WebSocketServer {
 	Logger logger=LoggerFactory.getLogger(WebSocketServer.class);
 	//静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
 	private static int onlineCount = 0;
+	
+	private String httpSessionId;
 	
 	//concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。若要实现服务端与单一客户端通信的话，可以使用Map来存放，其中Key可以为用户标识
     private static CopyOnWriteArraySet<WebSocketServer> webSocketSet = new CopyOnWriteArraySet<WebSocketServer>();
@@ -45,7 +48,11 @@ public class WebSocketServer {
 	@OnOpen
     public void onOpen(Session session,EndpointConfig config) throws IOException{
 		this.session = session;
+		
 		HttpSession httpSession= (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+		logger.info("session:{},HttpSession:{}",session.getId(),httpSession.getId());
+		this.httpSessionId=httpSession.getId();
+		
 		OptTypeEvt<String> sessionMap=new OptTypeEvt<String>();
 		sessionMap.setObject(httpSession.getId());
 		sessionMap.setOptType("loadSession");
@@ -97,26 +104,42 @@ public class WebSocketServer {
 					OptTypeEvt<Map<String,GameEvt>> result=new OptTypeEvt<Map<String,GameEvt>>();
 					result.setObject(gameMap);
 					result.setOptType("loadMap");
-					this.sendMessage(JSONUtil.objectToJson(result));
+					sendMessage(JSONUtil.objectToJson(result));
 				} catch (IOException e) {
 					logger.error("消息发送异常:{}" , e.getMessage());
 				}
-			} break;
+			}
+			break;
+			
+			case "roleChange":{
+				logger.info(String.valueOf(optType.getObject()));
+				MoveEvt moveEvt=JSONUtil.jsonToPoJo(JSONUtil.objectToJson(optType.getObject()),MoveEvt.class);
+				moveEvt.setId(httpSessionId);
+				OptTypeEvt<MoveEvt> result=new OptTypeEvt<MoveEvt>();
+				result.setObject(moveEvt);
+				result.setOptType("roleChange");
+				sendMessageAll(JSONUtil.objectToJson(result));
+			}
+			break;
 			
 			default:{
 				//群发消息
-				for(WebSocketServer item: webSocketSet){
-					try {
-						item.sendMessage(message);
-					} catch (IOException e) {
-						logger.error("消息发送异常:{}" ,e.getMessage());
-						continue;
-			        }
-		        }
-			} ;
+				sendMessageAll(message);
+			} 
+			break;
 		}
 		
     }
+	private void sendMessageAll(String msg){
+		for(WebSocketServer item: webSocketSet){
+			try {
+				item.sendMessage(msg);
+			} catch (IOException e) {
+				logger.error("消息发送异常:{}" ,e.getMessage());
+				continue;
+	        }
+        }
+	}
 
     /**
 	 * 发生错误时调用
@@ -125,6 +148,7 @@ public class WebSocketServer {
 	 */
 	@OnError
     public void onError(Session session, Throwable error){
+		error.printStackTrace();
 		logger.error("发生错误:{}",error.getMessage());
 	}
 	/**
