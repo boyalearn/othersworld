@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 import com.server.entity.GameEvt;
 import com.server.entity.MoveEvt;
-import com.server.entity.OptTypeEvt;
+import com.server.entity.OptTypeEvt; 
 import com.server.util.JSONUtil;
 
 @Component
