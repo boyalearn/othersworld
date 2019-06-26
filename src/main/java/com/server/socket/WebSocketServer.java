@@ -20,7 +20,8 @@ import org.springframework.stereotype.Component;
 
 import com.server.entity.GameEvt;
 import com.server.entity.MoveEvt;
-import com.server.entity.OptTypeEvt; 
+import com.server.entity.OptTypeEvt;
+import com.server.entity.PlayerEvt;
 import com.server.util.JSONUtil;
 
 @Component
@@ -38,6 +39,9 @@ public class WebSocketServer {
     
     
     public static Map<String,GameEvt> gameMap=new ConcurrentHashMap<String,GameEvt>(2000);
+    
+    
+    public static Map<String,GameEvt> userMap=new ConcurrentHashMap<String,GameEvt>(2000);
 	
     private Session session;
 	/**
@@ -51,19 +55,27 @@ public class WebSocketServer {
 		HttpSession httpSession= (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
 		this.httpSessionId=httpSession.getId();
 		
-		OptTypeEvt<String> sessionMap=new OptTypeEvt<String>();
-		sessionMap.setObject(httpSession.getId());
-		sessionMap.setOptType("loadSession");
-		this.sendMessage(JSONUtil.objectToJson(sessionMap));
+		OptTypeEvt<GameEvt> sessionMap=new OptTypeEvt<GameEvt>();
+
+		
 		
 		
 		GameEvt gameEvt=new GameEvt();
 		gameEvt.setId(httpSession.getId());
 		gameEvt.setType("2");
-		gameEvt.setX("0");
-		gameEvt.setY("0");
+		PlayerEvt player = ServerRunInfo.USERGAMEINFO.get(httpSessionId);
+		GameEvt curGameEvt=new GameEvt();
+		curGameEvt.setId(httpSessionId);
+		curGameEvt.setX(player.getX());
+		curGameEvt.setY(player.getY());
+		sessionMap.setObject(curGameEvt);
+		sessionMap.setOptType("loadSession");
+		this.sendMessage(JSONUtil.objectToJson(sessionMap));
+		gameEvt.setX(player.getX());
+		gameEvt.setY(player.getY());
 		
 		gameMap.put(this.httpSessionId,gameEvt);
+		userMap.put(this.httpSessionId,gameEvt);
 	    OptTypeEvt<Map<String,GameEvt>> result=new OptTypeEvt<Map<String,GameEvt>>();
 		result.setObject(gameMap);
 		result.setOptType("loadMap");
@@ -81,6 +93,8 @@ public class WebSocketServer {
 	public void onClose(){
 		webSocketSet.remove(this);  //从set中删除
 	    subOnlineCount();           //在线数减1
+	    gameMap.remove(gameMap.get(this.httpSessionId));
+	    userMap.remove(userMap.get(this.httpSessionId));
         System.out.println("有一连接关闭！当前在线人数为" + getOnlineCount());
 	}
 	/**
@@ -107,14 +121,13 @@ public class WebSocketServer {
 			break;
 			
 			case "roleChange":{
-				logger.info(String.valueOf(optType.getObject()));
 				MoveEvt moveEvt=JSONUtil.jsonToPoJo(JSONUtil.objectToJson(optType.getObject()),MoveEvt.class);
 				moveEvt.setId(httpSessionId);
 				OptTypeEvt<MoveEvt> result=new OptTypeEvt<MoveEvt>();
 				result.setObject(moveEvt);
 				result.setOptType("roleChange");
 				sendMessageAll(JSONUtil.objectToJson(result));
-				GameEvt gameEvt=gameMap.get(httpSessionId);
+				GameEvt gameEvt=userMap.get(httpSessionId);
 				gameEvt.setX(moveEvt.getX());
 				gameEvt.setY(moveEvt.getY());
 				gameEvt.setDirection(moveEvt.getDirection());

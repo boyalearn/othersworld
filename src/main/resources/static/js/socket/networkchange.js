@@ -1,8 +1,5 @@
 var netWorkChange=function(evt){
-	console.log(evt.data);
 	var obj = eval('(' + evt.data + ')');
-	console.log(obj);
-	console.log(obj.optType);
 	var data=obj.object;
 	switch(obj.optType){
 		case "loadMap":{
@@ -39,8 +36,8 @@ var netWorkChange=function(evt){
 
         	if(data.id!=JSESSIONID){
             	var controller=controllerMap.find(data.id);
+            	
             	controller.setDirection(data.direction);
-            	console.log(data);
             	if("S"==data.direction){
             		controller.setXY(data.x,data.y);
             	}
@@ -50,7 +47,8 @@ var netWorkChange=function(evt){
 		
 		case "loadSession":{
 			
-			JSESSIONID=data;
+			JSESSIONID=data.id;
+			curPlayer.init(80,80,data.x,data.y);
 		}
 		break;
 		

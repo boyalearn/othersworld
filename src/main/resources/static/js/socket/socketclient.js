@@ -16,7 +16,6 @@ socketClient.prototype.init=function(url){
 	};
 
 	this.ws.onmessage = function(evt) {
-		console.log(this);
 		netWorkChange(evt);
 	};
 

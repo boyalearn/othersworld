@@ -16,13 +16,16 @@ httpClient.prototype.sendGet=function(url,data,callback){
 	}
 }
 httpClient.prototype.sendPost=function(url,data,callback){
-	this.ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    this.ajax.open('post', '02.post.php' );
+    this.ajax.open('post', url+"?");
+	//this.ajax.setRequestHeader("Content-type", "application/json");
+	this.ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	
 	//发送请求
     this.ajax.send(data);
     this.ajax.onreadystatechange = function () {
-    //这步为判断服务器是否正确响应
-    if (this.ajax.readyState == 4 && this.ajax.status == 200) {
-    	callback(this.ajax.responseText);
+	    //这步为判断服务器是否正确响应
+	    if (this.readyState == 4 &&this.status == 200) {
+	    	callback(this.responseText);
+	    }
     }
 }
