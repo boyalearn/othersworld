@@ -27,7 +27,6 @@ playerObj.prototype.draw=function(stage,x,y){
 	}else{
 		stage.translate(x,y);
 	}
-	console.log(Math.abs(parseInt(this.x)%2));
 	stage.rotate(this.angle)
     stage.drawImage(this.imgs[Math.abs(parseInt(this.x)%2)],-this.width*0.5,-this.height*0.5,this.width,this.height);
     stage.restore();

@@ -40,6 +40,10 @@ var netWorkChange=function(evt){
         	if(data.id!=JSESSIONID){
             	var controller=controllerMap.find(data.id);
             	controller.setDirection(data.direction);
+            	console.log(data);
+            	if("S"==data.direction){
+            		controller.setXY(data.x,data.y);
+            	}
         	}
 		}
 		break;

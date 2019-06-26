@@ -4,6 +4,8 @@ public class GameEvt {
 	
 	private String id;
 	
+	private String direction;
+	
 	private String x;
 	
 	private String y;
@@ -16,6 +18,14 @@ public class GameEvt {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getDirection() {
+		return direction;
+	}
+
+	public void setDirection(String direction) {
+		this.direction = direction;
 	}
 
 	public String getX() {
@@ -44,7 +54,7 @@ public class GameEvt {
 
 	@Override
 	public String toString() {
-		return "GameEvt [id=" + id + ", x=" + x + ", y=" + y + ", type=" + type + "]";
+		return "GameEvt [id=" + id + ", direction=" + direction + ", x=" + x + ", y=" + y + ", type=" + type + "]";
 	}
 	
 }

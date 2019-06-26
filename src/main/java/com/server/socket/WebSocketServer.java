@@ -47,37 +47,32 @@ public class WebSocketServer {
 	 */
 	@OnOpen
     public void onOpen(Session session,EndpointConfig config) throws IOException{
-		this.session = session;
-		
+		this.session = session;		
 		HttpSession httpSession= (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
-		logger.info("session:{},HttpSession:{}",session.getId(),httpSession.getId());
 		this.httpSessionId=httpSession.getId();
 		
 		OptTypeEvt<String> sessionMap=new OptTypeEvt<String>();
 		sessionMap.setObject(httpSession.getId());
 		sessionMap.setOptType("loadSession");
 		this.sendMessage(JSONUtil.objectToJson(sessionMap));
+		
+		
 		GameEvt gameEvt=new GameEvt();
 		gameEvt.setId(httpSession.getId());
 		gameEvt.setType("2");
 		gameEvt.setX("0");
 		gameEvt.setY("0");
 		
-		gameMap.put(httpSession.getId(),gameEvt);
-	    webSocketSet.add(this);     //加入set中
-	    addOnlineCount();           //在线数加1
+		gameMap.put(this.httpSessionId,gameEvt);
 	    OptTypeEvt<Map<String,GameEvt>> result=new OptTypeEvt<Map<String,GameEvt>>();
 		result.setObject(gameMap);
 		result.setOptType("loadMap");
-		for(WebSocketServer item: webSocketSet){
-			try {
-				item.sendMessage(JSONUtil.objectToJson(result));
-			} catch (IOException e) {
-				logger.error("消息发送异常:{}" ,e.getMessage());
-				continue;
-	        }
-        }
+		sendMessageAll(JSONUtil.objectToJson(result));
+		
+	    webSocketSet.add(this);     //加入set中
+	    addOnlineCount();           //在线数加1
 	    logger.info("有新连接加入！当前在线人数为{}",getOnlineCount());
+	    
 	}
 	/**
 	 * 连接关闭调用的方法
@@ -106,7 +101,7 @@ public class WebSocketServer {
 					result.setOptType("loadMap");
 					sendMessage(JSONUtil.objectToJson(result));
 				} catch (IOException e) {
-					logger.error("消息发送异常:{}" , e.getMessage());
+					logger.error("消息发送异常:{}",e.getMessage());
 				}
 			}
 			break;
@@ -119,6 +114,10 @@ public class WebSocketServer {
 				result.setObject(moveEvt);
 				result.setOptType("roleChange");
 				sendMessageAll(JSONUtil.objectToJson(result));
+				GameEvt gameEvt=gameMap.get(httpSessionId);
+				gameEvt.setX(moveEvt.getX());
+				gameEvt.setY(moveEvt.getY());
+				gameEvt.setDirection(moveEvt.getDirection());
 			}
 			break;
 			
