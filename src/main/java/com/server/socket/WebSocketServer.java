@@ -94,7 +94,12 @@ public class WebSocketServer {
 		webSocketSet.remove(this);  //从set中删除
 	    subOnlineCount();           //在线数减1
 	    gameMap.remove(gameMap.get(this.httpSessionId));
+	    GameEvt offline = gameMap.get(this.httpSessionId);
 	    userMap.remove(userMap.get(this.httpSessionId));
+	    OptTypeEvt<GameEvt> result=new OptTypeEvt<GameEvt>();
+		result.setObject(offline);
+		result.setOptType("removeRole");
+	    sendMessageAll(JSONUtil.objectToJson(result));
         System.out.println("有一连接关闭！当前在线人数为" + getOnlineCount());
 	}
 	/**

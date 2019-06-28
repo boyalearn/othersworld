@@ -1,4 +1,4 @@
-var serverurl="ws://localhost:8080/worldserver";
+var serverurl="/worldserver";
 /**
  * get browser environment
  */
