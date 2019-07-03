@@ -55,7 +55,13 @@ function doLogin(){
 	});
 }
 document.body.onload=function(){
-	serverurl="ws://"+window.location.host+serverurl;
+	if("https:"==window.location.protocol){
+		serverurl="wss://"+window.location.host+serverurl;
+
+	}else{
+		serverurl="ws://"+window.location.host+serverurl;
+
+	}
 
 }
 </script>
