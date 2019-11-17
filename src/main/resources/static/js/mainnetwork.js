@@ -9,6 +9,7 @@ function initGameRole() {
 	client.init(serverurl);
 	curPlayer.init(80,80,0,0);
 	controller.init(curPlayer);
+	printlnData(gameMap);
 }
 
 function drawGameMap(){
@@ -25,4 +26,11 @@ function drawBackground() {
 	controller.run(chat);
 	drawGameMap();
 	curPlayer.draw(fontctx);
+}
+
+function printlnData(data){
+	window.setInterval(function() {
+		console.log(data);
+	},2000);
+	
 }

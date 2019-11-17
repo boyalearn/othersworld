@@ -9,7 +9,7 @@ import com.server.entity.GameEvt;
 
 @Mapper
 public interface MapInfoDao {
-	
+
 	@Select("SELECT t.id,t.object_type type,t.object_x x,t.object_y y FROM w_object t")
 	public List<GameEvt> getAllGameEvt();
 }

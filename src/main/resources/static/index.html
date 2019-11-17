@@ -1,45 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <meta charset="UTF-8">
-    <title>myWorld</title>
-    <style>
-        *{margin:0px;padding:0px;}
-        #loginbox{
-            position:fixed;
-            z-index:222;
-            background:#FFFFFF;
-        }
-        #allcanvas{
-            position:relative;
-			height:200px;
-            margin:0 auto;
-        }
-        #backcanvas{
-            position:absolute;
-            bottom:0px;
-            left:0px;
-            z-index:0;
-        }
-        #fontcanvas{
-            position:absolute;
-            bottom:0px;
-            left:0px;
-            z-index:1;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>myWorld</title>
+<style>
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+#loginbox {
+	position: fixed;
+	z-index: 222;
+	background: #FFFFFF;
+}
+
+#allcanvas {
+	position: relative;
+	height: 200px;
+	margin: 0 auto;
+}
+
+#backcanvas {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	z-index: 0;
+}
+
+#fontcanvas {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	z-index: 1;
+}
+</style>
 </head>
 <body>
-    <div id="loginbox">		
-		<div >
-		    <input id="account" name="account" value="18328508416" />
-		    <input name="password" value="" />
-		    <button onclick="doLogin()" id="loginBtn">登录</button>
+	<div id="loginbox">
+		<div>
+			<input id="account" name="account" value="18328508416" /> <input
+				name="password" value="" />
+			<button onclick="doLogin()" id="loginBtn">登录</button>
 		</div>
 	</div>
-	<div id="allcanvas">		
-		<canvas id="backcanvas" width="800" height="600" ></canvas>
-		<canvas id="fontcanvas" width="800" height="600" ></canvas>
+	<div id="allcanvas">
+		<canvas id="backcanvas" width="800" height="600"></canvas>
+		<canvas id="fontcanvas" width="800" height="600"></canvas>
 	</div>
 </body>
 
@@ -49,7 +56,9 @@ function doLogin(){
 	var account=document.getElementById("account").value;
 	var client=new httpClient();
 	client.sendPost("/doLogin","account="+account,function(data){
-		if("Y"==data){
+		var jsonData=eval('(' + data + ')');
+		if("Y"==jsonData.state){
+			JSESSIONID=jsonData.httpSessionId;
 			game();
 		}
 	});

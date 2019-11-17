@@ -1,15 +1,15 @@
 package com.server.entity;
 
 public class GameEvt {
-	
+
 	private String id;
-	
+
 	private String direction;
-	
+
 	private String x;
-	
+
 	private String y;
-	
+
 	private String type;
 
 	public String getId() {
@@ -56,5 +56,5 @@ public class GameEvt {
 	public String toString() {
 		return "GameEvt [id=" + id + ", direction=" + direction + ", x=" + x + ", y=" + y + ", type=" + type + "]";
 	}
-	
+
 }

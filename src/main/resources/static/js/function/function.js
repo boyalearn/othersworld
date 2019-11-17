@@ -1,7 +1,11 @@
 
 function game(){
+	runTag=true;
     init();
     gameloop();	
+}
+function stop(){
+	runTag=false;
 }
 function init(){
 	initEnvironment();
@@ -13,6 +17,9 @@ function init(){
  * 游戏循环
  */
 function gameloop(){
+	if(runTag!=true){
+		return ;
+	}
 	requestAnimationFrame(gameloop);
     getIntervalTime();
 	drawBackground();

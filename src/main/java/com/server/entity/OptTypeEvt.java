@@ -1,14 +1,14 @@
 package com.server.entity;
 
 public class OptTypeEvt<T> {
-	
+
 	/**
-	 * loadSession 、  loadMap
+	 * loadSession 、 loadMap
 	 * 
 	 */
-	
+
 	private String optType;
-	
+
 	private T object;
 
 	public String getOptType() {
@@ -31,9 +31,5 @@ public class OptTypeEvt<T> {
 	public String toString() {
 		return "OptTypeEvt [optType=" + optType + ", object=" + object + "]";
 	}
-
-	
-	
-	
 
 }

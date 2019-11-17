@@ -1,13 +1,13 @@
 package com.server.entity;
 
 public class MoveEvt {
-	
+
 	private String id;
-	
+
 	private String direction;
-	
+
 	private String x;
-	
+
 	private String y;
 
 	public String getId() {
@@ -46,6 +46,5 @@ public class MoveEvt {
 	public String toString() {
 		return "MoveEvt [id=" + id + ", direction=" + direction + ", x=" + x + ", y=" + y + "]";
 	}
-	
 
 }

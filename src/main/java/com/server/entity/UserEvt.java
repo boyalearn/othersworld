@@ -1,9 +1,9 @@
 package com.server.entity;
 
 public class UserEvt {
-	
+
 	private String account;
-	
+
 	private String password;
 
 	public String getAccount() {
@@ -21,7 +21,5 @@ public class UserEvt {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
 
 }

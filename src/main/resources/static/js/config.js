@@ -22,6 +22,7 @@ var mapRate=10;
  */
 var lastTime=Date.now();  //系统全局变量 上一帧时间
 var intervalTime=0;    //游戏一帧用掉的时间 用于处理时间平移时间
+var runTag=true;    //游戏是否运行
 var JSESSIONID="";
 /**
  * 游戏相关设置

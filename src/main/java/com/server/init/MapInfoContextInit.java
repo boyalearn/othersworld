@@ -20,35 +20,34 @@ import com.server.socket.ServerRunInfo;
 import com.server.socket.WebSocketServer;
 
 @Component
-public class MapInfoContextInit implements ApplicationRunner{
-	
-	Logger logger=LoggerFactory.getLogger(MapInfoContextInit.class);
-	
+public class MapInfoContextInit implements ApplicationRunner {
+
+	private final static Logger LOGGER = LoggerFactory.getLogger(MapInfoContextInit.class);
+
 	@Autowired
 	MapInfoDao mapInfoDao;
-	
+
 	@Autowired
 	UserInfoDao userInfoDao;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		
-		logger.info("初始化gameMap数据,启动参数为{}。",args);
-		
+
+		LOGGER.info("初始化gameMap数据,启动参数为{}。", args);
+
 		List<GameEvt> list = mapInfoDao.getAllGameEvt();
-		for(GameEvt gameEvt:list){
+		for (GameEvt gameEvt : list) {
 			WebSocketServer.gameMap.put(gameEvt.getId(), gameEvt);
 		}
-		
-		
-		ScheduledExecutorService service=Executors.newSingleThreadScheduledExecutor();
-		service.scheduleWithFixedDelay(new Runnable(){
+
+		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+		service.scheduleWithFixedDelay(new Runnable() {
 			@Override
 			public void run() {
 
-				for(String httpSessionId:WebSocketServer.userMap.keySet()){
-					
-					logger.info("更新用户信息入库id:{},info:{}",httpSessionId,WebSocketServer.userMap.get(httpSessionId));
+				for (String httpSessionId : WebSocketServer.userMap.keySet()) {
+
+					//LOGGER.info("更新用户信息入库id:{},info:{}", httpSessionId, WebSocketServer.userMap.get(httpSessionId));
 					PlayerEvt userDbInfo = ServerRunInfo.USERGAMEINFO.get(httpSessionId);
 					GameEvt userGameInfo = WebSocketServer.userMap.get(httpSessionId);
 					userDbInfo.setX(userGameInfo.getX());
@@ -56,10 +55,9 @@ public class MapInfoContextInit implements ApplicationRunner{
 					userInfoDao.updatePlayerMapInfo(userDbInfo);
 				}
 			}
-			
+
 		}, 2, 2, TimeUnit.SECONDS);
-		
+
 	}
-	 
 
 }

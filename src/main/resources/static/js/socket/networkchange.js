@@ -7,6 +7,8 @@ var netWorkChange=function(evt){
 			
 			for (var key in data) {
 				//全局变量gameMap
+				// type=1 为 树
+				// type=2 为 玩家
 				if("1"==data[key].type){
 					var tree=new treeObj();
 					tree.init(100,100,data[key].x,data[key].y);
@@ -52,16 +54,15 @@ var netWorkChange=function(evt){
 		break;
 		
 		case "loadSession":{
-			
-			JSESSIONID=data.id;
 			curPlayer.init(80,80,data.x,data.y);
 		}
 		break;
 		
 		
-		
-		
-		default:;break;
+		default:{
+			alert("please relogin !!!");
+			stop();
+		};break;
 	}
 	
 }
