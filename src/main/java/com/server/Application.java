@@ -17,5 +17,4 @@ public class Application {
 	public ServerEndpointExporter serverEndpointExporter() {
 		return new ServerEndpointExporter();
 	}
-
 }

@@ -1,3 +1,4 @@
+/*
 
 var player=new Player();
 var controller=new Controller();
@@ -29,3 +30,4 @@ function drawBackground(){
     drawWrap(player,tree4,fontctx);
 	drawWrap(player,tree5,fontctx);
 }
+*/

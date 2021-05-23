@@ -1,91 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-<meta charset="UTF-8">
-<title>myWorld</title>
-<style>
-* {
-	margin: 0px;
-	padding: 0px;
-}
+    <meta charset="UTF-8">
+    <title>myWorld</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
 
-#loginbox {
-	position: fixed;
-	z-index: 222;
-	background: #FFFFFF;
-}
+        #loginbox {
+            position: fixed;
+            z-index: 222;
+            background: #FFFFFF;
+        }
 
-#allcanvas {
-	position: relative;
-	height: 200px;
-	margin: 0 auto;
-}
+        #allcanvas {
+            position: relative;
+            height: 200px;
+            margin: 0 auto;
+        }
 
-#backcanvas {
-	position: absolute;
-	bottom: 0px;
-	left: 0px;
-	z-index: 0;
-}
-
-#fontcanvas {
-	position: absolute;
-	bottom: 0px;
-	left: 0px;
-	z-index: 1;
-}
-</style>
+        #canvas {
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            z-index: 1;
+        }
+    </style>
 </head>
 <body>
-	<div id="loginbox">
-		<div>
-			<input id="account" name="account" value="18328508416" /> <input
-				name="password" value="" />
-			<button onclick="doLogin()" id="loginBtn">登录</button>
-		</div>
-	</div>
-	<div id="allcanvas">
-		<canvas id="backcanvas" width="800" height="600"></canvas>
-		<canvas id="fontcanvas" width="800" height="600"></canvas>
-	</div>
+<div id="loginbox">
+    <div>
+        <input id="account" name="account" value="18328508416"/>
+        <input name="password" value=""/>
+        <button onclick="doLogin()" id="loginBtn">登录</button>
+    </div>
+</div>
+<div id="allcanvas">
+    <canvas id="canvas" width="800" height="600"></canvas>
+</div>
 </body>
-
-<script>
-
-function doLogin(){
-	var account=document.getElementById("account").value;
-	var client=new httpClient();
-	client.sendPost("/doLogin","account="+account,function(data){
-		var jsonData=eval('(' + data + ')');
-		if("Y"==jsonData.state){
-			JSESSIONID=jsonData.httpSessionId;
-			game();
-		}
-	});
-}
-document.body.onload=function(){
-	if("https:"==window.location.protocol){
-		serverurl="wss://"+window.location.host+serverurl;
-
-	}else{
-		serverurl="ws://"+window.location.host+serverurl;
-
-	}
-
-}
-</script>
-<script type="text/javascript" src="./js/obj/player.js"></script>
-<script type="text/javascript" src="./js/obj/tree.js"></script>
-<script type="text/javascript" src="./js/obj/chat.js"></script>
-<script type="text/javascript" src="./js/obj/controller.js"></script>
-<script type="text/javascript" src="./js/obj/position.js"></script>
+<script type="text/javascript" src="js/object/player.js"></script>
+<script type="text/javascript" src="js/object/tree.js"></script>
+<script type="text/javascript" src="js/object/chat.js"></script>
+<script type="text/javascript" src="js/object/controller.js"></script>
+<script type="text/javascript" src="js/object/position.js"></script>
+<script type="text/javascript" src="js/object/keyboarder.js"></script>
 <script type="text/javascript" src="./js/data/map.js"></script>
 <script type="text/javascript" src="./js/socket/socketclient.js"></script>
 <script type="text/javascript" src="./js/socket/httpclient.js"></script>
 <script type="text/javascript" src="./js/socket/networkchange.js"></script>
 <script type="text/javascript" src="./js/function/function.js"></script>
 <script type="text/javascript" src="./js/config.js"></script>
-<!--<script type="text/javascript" src="./js/mainlocal.js"></script>-->
-<script type="text/javascript" src="./js/mainnetwork.js"></script>
-
+<script type="text/javascript" src="./js/container.js"></script>
+<script type="text/javascript" src="./js/index.js"></script>
 </html>

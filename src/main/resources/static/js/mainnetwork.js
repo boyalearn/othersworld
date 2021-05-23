@@ -1,9 +1,10 @@
-var client=new socketClient();
+/*
+
 var controller=new Controller();
 var chat=new Chat();
 //用户当前角色不能动
 var curPlayer=new Player();
-var gameMap=new Map();
+
 var controllerMap=new Map();
 function initGameRole() {
 	client.init(serverurl);
@@ -34,3 +35,4 @@ function printlnData(data){
 	},2000);
 	
 }
+*/

@@ -24,8 +24,8 @@ function showAll(callBack) {
 	}
 }
 function count() {
-	var n = 0;
-	for (var key in this.datastore) {
+	let n = 0;
+	for (const key in this.datastore) {
 	    ++n;
 	}
 	return n;
