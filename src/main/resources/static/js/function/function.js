@@ -63,7 +63,7 @@ function getIntervalTime(){
  * @returns 非主角儿再屏幕上的x,y坐表
  */
 function getOtherPosition(r,o){
-	var position=new positionObj();
+	var position=new Position();
 	/**
 	 * gameScreenWidth   
      * gameScreenHeight 

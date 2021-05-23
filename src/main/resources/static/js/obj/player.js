@@ -1,4 +1,4 @@
-var playerObj=function(){
+var Player=function(){
 	this.width;
 	this.height;
     this.x=0;
@@ -8,7 +8,7 @@ var playerObj=function(){
 	this.angle=0*Math.PI;
 
 }
-playerObj.prototype.init=function(width,height,x,y){
+Player.prototype.init=function(width, height, x, y){
 	this.width=width;
 	this.height=height;
 	this.x=parseFloat(x);
@@ -20,7 +20,7 @@ playerObj.prototype.init=function(width,height,x,y){
     this.imgs[1].src="./images/role/player2.png";
 }
 
-playerObj.prototype.draw=function(stage,x,y){
+Player.prototype.draw=function(stage, x, y){
     stage.save();
 	if(this.isPlayer){
         stage.translate(gameScreenWidth/2,gameScreenHeight/2);

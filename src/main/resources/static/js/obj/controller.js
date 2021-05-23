@@ -1,18 +1,18 @@
-var controllerObj=function(){
+var Controller=function(){
 	this.role;
 	this.direction="S"  //S停 U上 D下 R右 L左 X旋转
 }
-controllerObj.prototype.init=function(role){
+Controller.prototype.init=function(role){
 	this.role=role;
 }
-controllerObj.prototype.setDirection=function(direction){
+Controller.prototype.setDirection=function(direction){
 	this.direction=direction;
 }
-controllerObj.prototype.setXY=function(cx,cy){
+Controller.prototype.setXY=function(cx, cy){
 	this.role.x=parseFloat(cx);
 	this.role.y=parseFloat(cy);
 }
-controllerObj.prototype.run=function(chat){
+Controller.prototype.run=function(chat){
 	if(this.direction=="U"){
 		this.role.y-=speed*intervalTime;
 	}

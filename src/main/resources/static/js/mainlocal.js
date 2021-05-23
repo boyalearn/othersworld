@@ -1,12 +1,12 @@
 
-var player=new playerObj();
-var controller=new controllerObj();
-var tree1=new treeObj();
-var tree2=new treeObj();
-var tree3=new treeObj();
-var tree4=new treeObj();
-var tree5=new treeObj();
-var chat=new chatObj();
+var player=new Player();
+var controller=new Controller();
+var tree1=new Tree();
+var tree2=new Tree();
+var tree3=new Tree();
+var tree4=new Tree();
+var tree5=new Tree();
+var chat=new Chat();
 
 function initGameRole(){
 	chat.init(gameScreenWidth/2,gameScreenHeight/2,"爱的魔力转圈圈");

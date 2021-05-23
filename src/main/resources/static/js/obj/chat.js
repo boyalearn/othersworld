@@ -1,4 +1,4 @@
-var chatObj=function(){
+var Chat=function(){
 	this.width;
 	this.height;
     this.x=250;
@@ -6,13 +6,13 @@ var chatObj=function(){
 	this.words;
 
 }
-chatObj.prototype.init=function(x,y,words){
+Chat.prototype.init=function(x, y, words){
 	this.x=x;
 	this.y=y;
 	this.words=words;
 
 }
-chatObj.prototype.draw=function(stage){
+Chat.prototype.draw=function(stage){
     stage.save();
     stage.translate(this.x,this.y);
     stage.font = '20px "微软雅黑"';

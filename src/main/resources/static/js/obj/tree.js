@@ -1,4 +1,4 @@
-var treeObj=function(){
+var Tree=function(){
 	this.width;
 	this.height;
     this.x=250;
@@ -6,7 +6,7 @@ var treeObj=function(){
 	this.imgs;
 
 }
-treeObj.prototype.init=function(width,height,x,y){
+Tree.prototype.init=function(width, height, x, y){
 	this.width=width;
 	this.height=height;
 	this.x=x;
@@ -15,7 +15,7 @@ treeObj.prototype.init=function(width,height,x,y){
     this.imgs.src="./images/background/tree.png";
 }
 
-treeObj.prototype.draw=function(stage,x,y){
+Tree.prototype.draw=function(stage, x, y){
     stage.save();
     stage.translate(x,y);
 	stage.rotate(Math.PI)

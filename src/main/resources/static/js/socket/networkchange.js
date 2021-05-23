@@ -10,7 +10,7 @@ var netWorkChange=function(evt){
 				// type=1 为 树
 				// type=2 为 玩家
 				if("1"==data[key].type){
-					var tree=new treeObj();
+					var tree=new Tree();
 					tree.init(100,100,data[key].x,data[key].y);
 					gameMap.add(key,tree);
 				}
@@ -18,10 +18,10 @@ var netWorkChange=function(evt){
 					if(JSESSIONID==data[key].id){
 						continue;
 					}
-					var player=new playerObj();
+					var player=new Player();
 					player.init(80,80,data[key].x,data[key].y);
 					player.isPlayer=false;
-					var controller=new controllerObj();
+					var controller=new Controller();
 					controller.init(player);
 					controllerMap.add(key,controller);
 					gameMap.add(key,player);
