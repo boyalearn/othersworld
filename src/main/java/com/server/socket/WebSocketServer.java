@@ -19,8 +19,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.server.entity.GameEvt;
-import com.server.entity.MoveEvt;
-import com.server.entity.OptTypeEvt;
+import com.server.entity.Move;
+import com.server.entity.Cmd;
 import com.server.entity.PlayerEvt;
 import com.server.util.JSONUtil;
 
@@ -60,7 +60,7 @@ public class WebSocketServer {
 		HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
 		this.httpSessionId = httpSession.getId();
 
-		OptTypeEvt<GameEvt> sessionMap = new OptTypeEvt<GameEvt>();
+		Cmd<GameEvt> sessionMap = new Cmd<GameEvt>();
 
 		GameEvt gameEvt = new GameEvt();
 		gameEvt.setId(httpSession.getId());
@@ -84,7 +84,7 @@ public class WebSocketServer {
 
 		gameMap.put(this.httpSessionId, gameEvt);
 		userMap.put(this.httpSessionId, gameEvt);
-		OptTypeEvt<Map<String, GameEvt>> result = new OptTypeEvt<Map<String, GameEvt>>();
+		Cmd<Map<String, GameEvt>> result = new Cmd<Map<String, GameEvt>>();
 		result.setObject(gameMap);
 		result.setOptType("loadMap");
 		sendMessageAll(JSONUtil.objectToJson(result));
@@ -104,7 +104,7 @@ public class WebSocketServer {
 		gameMap.remove(gameMap.get(this.httpSessionId));
 		GameEvt offline = gameMap.get(this.httpSessionId);
 		userMap.remove(userMap.get(this.httpSessionId));
-		OptTypeEvt<GameEvt> result = new OptTypeEvt<GameEvt>();
+		Cmd<GameEvt> result = new Cmd<GameEvt>();
 		result.setObject(offline);
 		result.setOptType("removeRole");
 		sendMessageAll(JSONUtil.objectToJson(result));
@@ -125,11 +125,11 @@ public class WebSocketServer {
 
 		logger.info("来自客户端的消息:{}", message);
 		@SuppressWarnings("unchecked")
-		OptTypeEvt<String> optType = (OptTypeEvt<String>) JSONUtil.jsonToPoJo(message, OptTypeEvt.class);
+        Cmd<String> optType = (Cmd<String>) JSONUtil.jsonToPoJo(message, Cmd.class);
 		switch (optType.getOptType()) {
 		case "loadMap": {
 			try {
-				OptTypeEvt<Map<String, GameEvt>> result = new OptTypeEvt<Map<String, GameEvt>>();
+				Cmd<Map<String, GameEvt>> result = new Cmd<Map<String, GameEvt>>();
 				result.setObject(gameMap);
 				result.setOptType("loadMap");
 				sendMessage(JSONUtil.objectToJson(result));
@@ -140,9 +140,9 @@ public class WebSocketServer {
 			break;
 
 		case "roleChange": {
-			MoveEvt moveEvt = JSONUtil.jsonToPoJo(JSONUtil.objectToJson(optType.getObject()), MoveEvt.class);
+			Move moveEvt = JSONUtil.jsonToPoJo(JSONUtil.objectToJson(optType.getObject()), Move.class);
 			moveEvt.setId(httpSessionId);
-			OptTypeEvt<MoveEvt> result = new OptTypeEvt<MoveEvt>();
+			Cmd<Move> result = new Cmd<Move>();
 			result.setObject(moveEvt);
 			result.setOptType("roleChange");
 			sendMessageAll(JSONUtil.objectToJson(result));

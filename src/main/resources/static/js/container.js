@@ -91,14 +91,13 @@ Container.prototype.calculateIntervalTime = function () {
     this.lastTime = Date.now();
 }
 
-
 /**
  * @param r  主角儿对象
  * @param o  非主角儿对象
  * @returns Position
  */
 Container.prototype.calculateOtherPosition = function (r, o) {
-    var position = new Position();
+    const position = new Position();
     position.x = this.width / 2 - (r.x - o.x);
     position.y = this.height / 2 - (r.y - o.y);
     return position;
@@ -109,8 +108,12 @@ Container.prototype.calculateOtherPosition = function (r, o) {
  * @param o  非主角儿对象
  */
 Container.prototype.drawWrap = function (r, o) {
-    var position = this.calculateOtherPosition(r, o);
+    const position = this.calculateOtherPosition(r, o);
     if (position.x > 0 && position.x < this.width && position.y > 0 && position.y < this.height) {
         o.draw(this.canvasCtx, position.x, position.y, this);
     }
+}
+
+Container.prototype.stop = function () {
+    this.run = false;
 }

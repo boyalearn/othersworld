@@ -1,5 +1,5 @@
 var Controller = function () {
-    this.role;
+    this.role = null;
     this.direction = "S"  //S停 U上 D下 R右 L左 X旋转
 }
 Controller.prototype.init = function (role) {
@@ -7,6 +7,9 @@ Controller.prototype.init = function (role) {
 }
 Controller.prototype.setDirection = function (direction) {
     this.direction = direction;
+}
+Controller.prototype.getDirection = function () {
+    return this.direction;
 }
 Controller.prototype.setXY = function (cx, cy) {
     this.role.x = parseFloat(cx);

@@ -1,9 +1,9 @@
-var Player = function () {
-    this.width;
-    this.height;
+const Player = function () {
+    this.width = null;
+    this.height = null;
     this.x = 0;
     this.y = 0;
-    this.imgs;
+    this.imgs = null;
     this.isPlayer = true;
     this.angle = 0 * Math.PI;
 

@@ -5,61 +5,77 @@ var Keyboarder = function (sessionId, container, client) {
 }
 
 Keyboarder.prototype.init = function () {
-    var _controller = this.container.controllers.find(this.sessionId);
-    var _client = this.client;
+    const _controller = this.container.controllers.find(this.sessionId);
+    const _client = this.client;
     document.onkeydown = function (e) {
         var ev = (typeof event != 'undefined') ? window.event : e;
+
+        var cmd = new Cmd();
+        cmd.cmd = CmdType.CHANGE_ROLE;
+        cmd.data = new Move();
+        cmd.data.x = _controller.role.x;
+        cmd.data.y = _controller.role.y;
         if (ev.keyCode == 40) {
 
             _controller.setDirection("D");
-            _client.send("{\"optType\":\"roleChange\",\"object\":{\"direction\":\"D\",\"x\":\"" + _controller.role.x + "\",\"y\":\"" + _controller.role.y + "\"}}");
+            cmd.data.direction = _controller.getDirection();
+            _client.send(JSON.stringify(cmd));
         }
         //Right
         if (ev.keyCode == 39) {
             _controller.setDirection("R");
-            _client.send("{\"optType\":\"roleChange\",\"object\":{\"direction\":\"R\",\"x\":\"" + _controller.role.x + "\",\"y\":\"" + _controller.role.y + "\"}}");
+            cmd.data.direction = _controller.getDirection();
+            _client.send(JSON.stringify(cmd));
         }
         if (ev.keyCode == 38) {
             _controller.setDirection("U");
-            _client.send("{\"optType\":\"roleChange\",\"object\":{\"direction\":\"U\",\"x\":\"" + _controller.role.x + "\",\"y\":\"" + _controller.role.y + "\"}}");
+            cmd.data.direction = _controller.getDirection();
+            _client.send(JSON.stringify(cmd));
         }
         //Left
         if (ev.keyCode == 37) {
             _controller.setDirection("L");
-            _client.send("{\"optType\":\"roleChange\",\"object\":{\"direction\":\"L\",\"x\":\"" + _controller.role.x + "\",\"y\":\"" + _controller.role.y + "\"}}");
+            cmd.data.direction = _controller.getDirection();
+            _client.send(JSON.stringify(cmd));
         }
         //X
         if (ev.keyCode == 88) {
             _controller.setDirection("X");
-            _client.send("{\"optType\":\"roleChange\",\"object\":{\"direction\":\"X\",\"x\":\"" + _controller.role.x + "\",\"y\":\"" + _controller.role.y + "\"}}");
+            cmd.data.direction = _controller.getDirection();
+            _client.send(JSON.stringify(cmd));
         }
 
     }
     document.onkeyup = function (e) {
-        var ev = (typeof event != 'undefined') ? window.event : e;
+        const ev = (typeof event != 'undefined') ? window.event : e;
         if (ev.keyCode == 40) {
             _controller.setDirection("S");
-            _client.send("{\"optType\":\"roleChange\",\"object\":{\"direction\":\"S\",\"x\":\"" + _controller.role.x + "\",\"y\":\"" + _controller.role.y + "\"}}");
+            cmd.data.direction = _controller.getDirection();
+            _client.send(JSON.stringify(cmd));
         }
         //Right
         if (ev.keyCode == 39) {
             _controller.setDirection("S");
-            _client.send("{\"optType\":\"roleChange\",\"object\":{\"direction\":\"S\",\"x\":\"" + _controller.role.x + "\",\"y\":\"" + _controller.role.y + "\"}}");
+            cmd.data.direction = _controller.getDirection();
+            _client.send(JSON.stringify(cmd));
         }
         if (ev.keyCode == 38) {
             _controller.setDirection("S");
-            _client.send("{\"optType\":\"roleChange\",\"object\":{\"direction\":\"S\",\"x\":\"" + _controller.role.x + "\",\"y\":\"" + _controller.role.y + "\"}}");
+            cmd.data.direction = _controller.getDirection();
+            _client.send(JSON.stringify(cmd));
 
         }
         //Left
         if (ev.keyCode == 37) {
             _controller.setDirection("S");
-            _client.send("{\"optType\":\"roleChange\",\"object\":{\"direction\":\"S\",\"x\":\"" + _controller.role.x + "\",\"y\":\"" + _controller.role.y + "\"}}");
+            cmd.data.direction = _controller.getDirection();
+            _client.send(JSON.stringify(cmd));
 
         }
         if (ev.keyCode == 88) {
             _controller.setDirection("S");
-            _client.send("{\"optType\":\"roleChange\",\"object\":{\"direction\":\"S\",\"x\":\"" + _controller.role.x + "\",\"y\":\"" + _controller.role.y + "\"}}");
+            cmd.data.direction = _controller.getDirection();
+            _client.send(JSON.stringify(cmd));
         }
     }
 }

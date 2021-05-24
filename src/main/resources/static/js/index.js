@@ -4,6 +4,14 @@ box.style.height = document.documentElement.clientHeight + 'px';
 var JSESSIONID;
 var serverurl = "/worldserver";
 
+document.body.onload = function () {
+    if ("https:" == window.location.protocol) {
+        serverurl = "wss://" + window.location.host + serverurl;
+    } else {
+        serverurl = "ws://" + window.location.host + serverurl;
+    }
+}
+
 function doLogin() {
     var account = document.getElementById("account").value;
     var client = new httpClient();
@@ -24,10 +32,3 @@ function game() {
     new Keyboarder(JSESSIONID, container, socketClient).init();
 }
 
-document.body.onload = function () {
-    if ("https:" == window.location.protocol) {
-        serverurl = "wss://" + window.location.host + serverurl;
-    } else {
-        serverurl = "ws://" + window.location.host + serverurl;
-    }
-}

@@ -1,27 +1,26 @@
-var SocketClient = function (container) {
-    this.ws;
-    this.url;
-    this.lock;
+const SocketClient = function (container, url, monitor) {
+    this.ws = null;
+    this.url = url;
+    this.lock = false;
     this.container = container;
+    this.monitor = monitor;
 }
 
-/**
- * opt loadMap
- */
-SocketClient.prototype.init = function (url) {
-    this.url = url;
-    var _this = this;
+SocketClient.prototype.init = function () {
+    const _this = this;
     if (!"WebSocket" in window) {
-        alert("您的浏览器不支持 WebSocket!");
+        alert("you browser not support WebSocket!");
     }
-    this.ws = new WebSocket(url);
+    this.ws = new WebSocket(this.url);
 
     this.ws.onopen = function () {
-        this.send("{\"optType\":\"loadMap\"}");
+        const cmd = new Cmd();
+        cmd.cmd = CmdType.CHANGE_ROLE
+        this.send(JSON.stringify(cmd));
     };
 
     this.ws.onmessage = function (evt) {
-        netWorkChange(evt, _this.container);
+        this.monitor.monitor(evt, _this.container);
     };
 
     this.ws.onclose = function () {
@@ -29,16 +28,17 @@ SocketClient.prototype.init = function (url) {
         _this.reconnect();
     };
 }
-SocketClient.prototype.send = function (msg) {
-    this.ws.send(msg);
+SocketClient.prototype.send = function (data) {
+    this.ws.send(data);
 }
 SocketClient.prototype.reconnect = function () {
 
-    var _this = this;
-    if (_this.lock) return;
+    const _this = this;
+    if (_this.lock) {
+        return;
+    }
     _this.lock = true;
 
-    console.log("reconnect");
     setTimeout(function () {     //没连接上会一直重连，设置延迟避免请求过多
         try {
             _this.init(_this.url);
