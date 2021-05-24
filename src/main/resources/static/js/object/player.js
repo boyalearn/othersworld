@@ -20,14 +20,14 @@ Player.prototype.init = function (width, height, x, y) {
     this.imgs[1].src = "./images/role/player2.png";
 }
 
-Player.prototype.draw = function (stage, x, y, container) {
-    stage.save();
+Player.prototype.draw = function (container, x, y) {
+    container.canvasCtx.save();
     if (this.isPlayer) {
-        stage.translate(container.width / 2, container.height / 2);
+        container.canvasCtx.translate(container.width / 2, container.height / 2);
     } else {
-        stage.translate(x, y);
+        container.canvasCtx.translate(x, y);
     }
-    stage.rotate(this.angle)
-    stage.drawImage(this.imgs[Math.abs(parseInt(this.x) % 2)], -this.width * 0.5, -this.height * 0.5, this.width, this.height);
-    stage.restore();
+    container.canvasCtx.rotate(this.angle)
+    container.canvasCtx.drawImage(this.imgs[Math.abs(parseInt(this.x) % 2)], -this.width * 0.5, -this.height * 0.5, this.width, this.height);
+    container.canvasCtx.restore();
 }

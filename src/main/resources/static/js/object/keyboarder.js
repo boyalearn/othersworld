@@ -1,24 +1,36 @@
-var Keyboarder = function (sessionId, container, client) {
-    this.sessionId = sessionId;
+/**
+ * Keyboarder 通过键盘监听事件来通过控制器来控制对象
+ * @param container
+ * @param client
+ * @constructor
+ */
+const Keyboarder = function (container, client) {
     this.container = container;
     this.client = client;
 }
 
-Keyboarder.prototype.init = function () {
-    const _controller = this.container.controllers.find(this.sessionId);
-    const _client = this.client;
-    document.onkeydown = function (e) {
-        var ev = (typeof event != 'undefined') ? window.event : e;
+Keyboarder.prototype.buildCmd = function (controller) {
+    const cmd = new Cmd();
+    cmd.cmd = CmdType.CHANGE_ROLE;
+    cmd.data = new Move();
+    cmd.data.x = controller.role.x;
+    cmd.data.y = controller.role.y;
+    return cmd;
+}
 
-        var cmd = new Cmd();
-        cmd.cmd = CmdType.CHANGE_ROLE;
-        cmd.data = new Move();
-        cmd.data.x = _controller.role.x;
-        cmd.data.y = _controller.role.y;
+Keyboarder.prototype.init = function () {
+    const _this = this;
+    const _client = this.client;
+
+    document.onkeydown = function (e) {
+        const ev = (typeof event != 'undefined') ? window.event : e;
+        const _controller = _this.container.controllers.find(_this.container.sessionId);
+        const cmd = _this.buildCmd(_controller);
         if (ev.keyCode == 40) {
 
             _controller.setDirection("D");
             cmd.data.direction = _controller.getDirection();
+            console.log(JSON.stringify(cmd))
             _client.send(JSON.stringify(cmd));
         }
         //Right
@@ -48,6 +60,8 @@ Keyboarder.prototype.init = function () {
     }
     document.onkeyup = function (e) {
         const ev = (typeof event != 'undefined') ? window.event : e;
+        const _controller = _this.container.controllers.find(_this.container.sessionId);
+        const cmd = _this.buildCmd(_controller);
         if (ev.keyCode == 40) {
             _controller.setDirection("S");
             cmd.data.direction = _controller.getDirection();

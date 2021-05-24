@@ -11,13 +11,13 @@ var ObjectType = {
 }
 
 var Cmd = function () {
-    this.cmd;
-    this.data;
+    this.cmd = null;
+    this.data = null;
 };
 
 var Move = function () {
     this.id;
-    this.direction;
+    this.direction = null;
     this.x;
     this.y;
 }

@@ -1,3 +1,8 @@
+/**
+ * NetworkMonitor 是个网络监听器。通过网络事件来控制容器的渲染
+ * @param container
+ * @constructor
+ */
 const NetworkMonitor = function (container) {
     this.container = container;
 };
@@ -7,7 +12,9 @@ NetworkMonitor.prototype.loadContainer = function (data) {
             const tree = new Tree();
             tree.init(100, 100, data[key].x, data[key].y);
             this.container.addObjectInContainer(key, tree)
-        } else if (ObjectType.PLAYER == data[key].type) {
+            continue;
+        }
+        if (ObjectType.PLAYER == data[key].type) {
             if (this.container.sessionId == data[key].id) {
                 continue;
             }
@@ -15,13 +22,13 @@ NetworkMonitor.prototype.loadContainer = function (data) {
             player.init(80, 80, data[key].x, data[key].y);
             player.isPlayer = false;
             this.container.addObjectInContainer(key, player)
+            continue;
         }
-
     }
 }
-NetworkMonitor.prototype.removeMonitor = function (id) {
-    this.container.objectContainer.remove(id);
-    this.container.controllers.remove(id);
+NetworkMonitor.prototype.removeMonitor = function (data) {
+    this.container.objectContainer.remove(data.id);
+    this.container.controllers.remove(data.id);
 }
 
 NetworkMonitor.prototype.changeRole = function (data) {
@@ -38,7 +45,8 @@ NetworkMonitor.prototype.loadSession = function (data) {
     const player = new Player();
     player.init(80, 80, data.x, data.y);
     player.isPlayer = true;
-    this.container.addObjectInContainer(JSESSIONID, player)
+    this.container.player = player;
+    this.container.addObjectInContainer(this.container.sessionId, player)
 }
 
 
@@ -50,7 +58,7 @@ NetworkMonitor.prototype.monitor = function (evt) {
             this.loadContainer(data);
             break;
         case CmdType.REMOVE_ROLE:
-            this.removeMonitor(data.id);
+            this.removeMonitor(data);
             break;
         case CmdType.CHANGE_ROLE:
             this.changeRole(data);

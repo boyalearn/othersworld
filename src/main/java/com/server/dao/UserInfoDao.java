@@ -1,37 +1,29 @@
 package com.server.dao;
 
+import com.server.entity.Move;
+import com.server.entity.PlayerPosition;
+import com.server.entity.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.server.entity.PlayerEvt;
-import com.server.entity.UserEvt;
-
 @Mapper
 public interface UserInfoDao {
 
-	@Select("SELECT u.id,um.map_x x,um.map_y y " + "FROM w_user u LEFT JOIN w_user_map um on u.id=um.user_id WHERE "
-			+ "u.id=#{id}")
-	public PlayerEvt getPlayerEvtById(Integer id);
+    @Select("SELECT u.id FROM w_user u  WHERE u.account=#{account}")
+    User getPlayerByAccount(String account);
 
-	@Select("SELECT u.id,um.map_x x,um.map_y y " + "FROM w_user u LEFT JOIN w_user_map um on u.id=um.user_id WHERE "
-			+ "u.account=#{account}")
-	public PlayerEvt getPlayerEvtByAccount(String account);
+    @Update("UPDATE w_user_position_info t set t.position_x=#{x},t.position_y=#{y} WHERE  " + "t.user_id=#{userId}")
+    int updatePlayerPositionInfo(PlayerPosition position);
 
-	@Update("UPDATE w_user_map t set t.map_x=#{x},t.map_y=#{y} WHERE  " + "t.user_id=#{id}")
-	public int updatePlayerMapInfo(PlayerEvt player);
 
-	// TODO
-	@Update("UPDATE w_user t set t.map_x=#{x},t.map_y=#{y} WHERE  " + "t.user_id=#{id}")
-	public int updatePlayerInfo(PlayerEvt player);
+    @Insert("INSERT INTO w_user(account) values (#{account})")
+    int addPlayerInfo(User user);
 
-	@Insert("INSERT INTO w_user(account) values (#{account})")
-	public int addPlayerInfo(UserEvt user);
+    @Insert("INSERT INTO w_user_position_info(user_id,position_x,position_y) values (#{userId},#{x},#{y})")
+    int addPlayerPositionInfo(PlayerPosition position);
 
-	@Insert("INSERT INTO w_user_map(user_id,map_x,map_y) values (#{id},#{x},#{y})")
-	public int addPlayerMapInfo(PlayerEvt user);
-
-	@Select("SELECT um.user_id id,um.map_x x,um.map_y y FROM w_user_map um WHERE um.user_id=#{id}")
-	public PlayerEvt getPlayerMapInfo(PlayerEvt user);
+    @Select("SELECT um.user_id id,um.position_x x,um.position_y y FROM w_user_position_info um WHERE um.user_id=#{userId}")
+    PlayerPosition findPlayerPositionInfo(PlayerPosition position);
 }

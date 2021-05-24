@@ -1,9 +1,11 @@
-var Controller = function () {
-    this.role = null;
-    this.direction = "S"  //S停 U上 D下 R右 L左 X旋转
-}
-Controller.prototype.init = function (role) {
+/**
+ * 控制器 每个对象需要一个控制器。来控制被包装的角色
+ * @param role
+ * @constructor
+ */
+const Controller = function (role) {
     this.role = role;
+    this.direction = "S"  //S停 U上 D下 R右 L左 X旋转
 }
 Controller.prototype.setDirection = function (direction) {
     this.direction = direction;
@@ -27,10 +29,6 @@ Controller.prototype.run = function (container) {
     }
     if (this.direction == "R") {
         this.role.x += container.speed * container.intervalTime;
-    }
-    if (this.direction == "X") {
-        //chat.draw(fontctx);
-        //this.role.angle+=0.05*Math.PI;
     }
 }
 

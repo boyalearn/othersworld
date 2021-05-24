@@ -15,10 +15,10 @@ Tree.prototype.init = function (width, height, x, y) {
     this.imgs.src = "./images/background/tree.png";
 }
 
-Tree.prototype.draw = function (stage, x, y) {
-    stage.save();
-    stage.translate(x, y);
-    stage.rotate(Math.PI)
-    stage.drawImage(this.imgs, -this.width * 0.5, -this.height * 0.5, this.width, this.height);
-    stage.restore();
+Tree.prototype.draw = function (container, x, y) {
+    container.canvasCtx.save();
+    container.canvasCtx.translate(x, y);
+    container.canvasCtx.rotate(Math.PI)
+    container.canvasCtx.drawImage(this.imgs, -this.width * 0.5, -this.height * 0.5, this.width, this.height);
+    container.canvasCtx.restore();
 }

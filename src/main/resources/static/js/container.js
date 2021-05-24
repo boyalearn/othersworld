@@ -1,16 +1,22 @@
-var Container = function (canvasId, sessionId) {
+/**
+ * Container 是个大染缸所有对象放到容器中就可以自动渲染。
+ * @param canvasId
+ * @param sessionId
+ * @constructor
+ */
+const Container = function (canvasId, sessionId) {
     this.run = true;
     this.sessionId = sessionId;
-    this.width;
-    this.height;
-    this.canvasCtx;
+    this.width = null;
+    this.height = null;
+    this.canvasCtx = null;
     this.objectContainer = new Map();
     this.controllers = new Map();
-    this.player = new Player();
+    this.player = null;
     this.canvasId = canvasId;
-    this.intervalTime;
+    this.intervalTime = 0;
     this.speed = 2;
-    this.lastTime;
+    this.lastTime = new Date();
 }
 
 Container.prototype.start = function () {
@@ -25,17 +31,8 @@ Container.prototype.stop = function () {
 
 Container.prototype.init = function () {
     this.initEnvironment();
-    this.initGameRole();
 }
 
-
-Container.prototype.initGameRole = function () {
-    this.player.init(80, 80, 0, 0);
-    this.objectContainer.add(this.sessionId, this.player);
-    const controller = new Controller();
-    controller.init(this.player);
-    this.controllers.add(this.sessionId, controller);
-}
 /**
  * 游戏循环
  */
@@ -44,7 +41,6 @@ Container.prototype.clockLoop = function () {
         return;
     }
     var _this = this;
-    console.log("loop")
     this.calculateIntervalTime();
     this.drawGameWindow();
     window.requestAnimationFrame(function () {
@@ -59,8 +55,7 @@ Container.prototype.drawGameWindow = function () {
 }
 
 Container.prototype.addObjectInContainer = function (key, object) {
-    var controller = new Controller();
-    controller.init(object);
+    const controller = new Controller(object);
     this.controllers.add(key, controller);
     this.objectContainer.add(key, object);
 }
@@ -72,7 +67,7 @@ Container.prototype.drawObjectInContainer = function () {
         _this.drawWrap(_player, object);
     });
     this.controllers.showAll(function (key, controller) {
-        controller.run(this);
+        controller.run(_this);
     })
 
 }
@@ -110,7 +105,7 @@ Container.prototype.calculateOtherPosition = function (r, o) {
 Container.prototype.drawWrap = function (r, o) {
     const position = this.calculateOtherPosition(r, o);
     if (position.x > 0 && position.x < this.width && position.y > 0 && position.y < this.height) {
-        o.draw(this.canvasCtx, position.x, position.y, this);
+        o.draw(this, position.x, position.y);
     }
 }
 
