@@ -2,45 +2,16 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>myWorld</title>
-    <style>
-        * {
-            margin: 0px;
-            padding: 0px;
-        }
-
-        #loginbox {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            z-index: 222;
-            background-image: url("./images/login/login.jpg");
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-
-        #allcanvas {
-            position: relative;
-            height: 200px;
-            margin: 0 auto;
-        }
-
-        canvas {
-            position: absolute;
-            bottom: 0px;
-            left: 0px;
-            z-index: 1;
-            display: -webkit-box;
-        }
-    </style>
-    <script src="js/data/structure.js"></script>
+    <title>您的世界</title>
+    <link rel='stylesheet' href='./css/index.css'/>
 </head>
 <body>
 <div id="loginbox">
     <div>
-        <input id="account" name="account" value="18328508416"/>
-        <input name="password" value=""/>
+        <input class="input-text" id="account" name="account" value="18328508416"/>
+        <input class="input-text" id="password" name="password" value=""/>
         <button onclick="doLogin()" id="loginBtn">登录</button>
+        <button onclick="doRegister()" style="float:right;" id="registerBtn">注册</button>
     </div>
 </div>
 <div id="allcanvas">

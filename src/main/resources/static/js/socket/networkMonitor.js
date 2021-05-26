@@ -76,8 +76,13 @@ NetworkMonitor.prototype.monitor = function (evt, client) {
         case CmdType.LOAD_SESSION:
             this.loadSession(data, client);
             break;
+        case CmdType.RE_LOGIN :
+            this.loginAgain();
         default:
             this.container.stop();
             break;
     }
+}
+NetworkMonitor.prototype.loginAgain = function () {
+    window.location.href = window.location.href;
 }

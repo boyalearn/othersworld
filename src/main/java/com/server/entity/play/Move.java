@@ -1,4 +1,4 @@
-package com.server.entity;
+package com.server.entity.play;
 
 public class Move {
 

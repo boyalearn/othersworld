@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
-import com.server.entity.GameModel;
+import com.server.entity.play.GameModel;
 
 @Mapper
 public interface SceneMapInfoDao {

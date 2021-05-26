@@ -3,7 +3,8 @@ var CmdType = {
     REMOVE_ROLE: "removeRole",
     LOAD_RESOURCE: "loadResource",
     LOAD_SESSION: "loadSession",
-    CREAT_MODEL: "createModel"
+    CREAT_MODEL: "createModel",
+    RE_LOGIN : "reLogin"
 }
 
 var ModelType = {

@@ -2,12 +2,13 @@ package com.server.monitor;
 
 import com.server.container.GameMemoryContainer;
 import com.server.dao.SceneMapInfoDao;
-import com.server.entity.Cmd;
-import com.server.entity.CmdType;
-import com.server.entity.GameModeType;
-import com.server.entity.GameModel;
-import com.server.entity.Move;
-import com.server.entity.Player;
+import com.server.entity.play.Cmd;
+import com.server.entity.play.CmdType;
+import com.server.entity.play.GameModeType;
+import com.server.entity.play.GameModel;
+import com.server.entity.play.Move;
+import com.server.entity.play.Player;
+import com.server.exception.UserNotFoundException;
 import com.server.socket.WebSocketServer;
 import com.server.util.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class GameMonitor {
 
     public void loadSession(WebSocketServer connection) throws IOException {
         Player player = GameMemoryContainer.GAME_PLAYER_MAP.get(connection.getHttpSessionId());
+        if (null == player) {
+            throw new UserNotFoundException("user not found exception");
+        }
         GameModel model = new GameModel();
         model.setId(connection.getHttpSessionId());
         model.setX(player.getMove().getX());

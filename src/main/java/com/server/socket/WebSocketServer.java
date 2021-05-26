@@ -1,10 +1,11 @@
 package com.server.socket;
 
 import com.server.container.GameMemoryContainer;
-import com.server.entity.Cmd;
-import com.server.entity.CmdType;
-import com.server.entity.GameModel;
-import com.server.entity.Move;
+import com.server.entity.play.Cmd;
+import com.server.entity.play.CmdType;
+import com.server.entity.play.GameModel;
+import com.server.entity.play.Move;
+import com.server.exception.UserNotFoundException;
 import com.server.util.JSONUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,9 +130,18 @@ public class WebSocketServer {
      * @param error
      */
     @OnError
-    public void onError(Session session, Throwable error) {
-        error.printStackTrace();
-        logger.error("发生错误:{}", error.getMessage());
+    public void onError(Session session, Throwable error) throws IOException {
+        if (error.getCause() instanceof UserNotFoundException) {
+            Cmd cmd = new Cmd();
+            cmd.setCmd(CmdType.RE_LOGIN);
+            this.unicast(JSONUtil.objectToJson(cmd));
+            return;
+        }
+        if (error.getCause() instanceof IOException) {
+            logger.info("one player break off connect .. session id is {}", session.getId());
+            return;
+        }
+        logger.error("发生错误:{}", error.getMessage(), error);
     }
 
     /**

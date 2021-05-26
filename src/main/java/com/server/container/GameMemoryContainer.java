@@ -1,7 +1,7 @@
 package com.server.container;
 
-import com.server.entity.GameModel;
-import com.server.entity.Player;
+import com.server.entity.play.GameModel;
+import com.server.entity.play.Player;
 import com.server.monitor.GameMonitor;
 
 import java.util.Map;

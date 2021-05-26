@@ -1,24 +1,67 @@
 * {
-	margin: 0px;
-	padding: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
+canvas {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    z-index: 1;
+    display: -webkit-box;
+}
+
+#loginbox {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 222;
+    background-image: url("../images/login/login.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#loginbox div {
+    position: absolute;
+    top: 400px;
+    left: calc(50% - 206px);
+    width: 412px;
+}
+
+#loginbox button {
+	display: block;
+	width: 80px;
+	margin-top: 10px;
+	height: 32px;
+	padding: 4px;
+	float: left;
+}
+
+.input-text {
+    display: block;
+    width: 400px;
+	margin-top: 10px;
+    height: 32px;
+    padding: 4px;
 }
 
 #allcanvas {
-	position: relative;
-	height: 200px;
-	margin: 0 auto;
+    position: relative;
+    height: 200px;
+    margin: 0 auto;
 }
 
 #backcanvas {
-	position: absolute;
-	bottom: 0px;
-	left: 0px;
-	z-index: 0;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    z-index: 0;
 }
 
 #fontcanvas {
-	position: absolute;
-	bottom: 0px;
-	left: 0px;
-	z-index: 1;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    z-index: 1;
 }
+
