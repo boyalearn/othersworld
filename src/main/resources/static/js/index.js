@@ -1,6 +1,9 @@
 var box = document.getElementById("allcanvas");
 box.style.Width = document.documentElement.clientWidth + 'px';
 box.style.height = document.documentElement.clientHeight + 'px';
+var loginBox = document.getElementById("loginbox");
+loginBox.style.Width = document.documentElement.clientWidth + 'px';
+loginBox.style.height = document.documentElement.clientHeight + 'px';
 
 var JSESSIONID;
 var serverurl = "/worldserver";
@@ -21,17 +24,22 @@ function doLogin() {
         const jsonData = eval('(' + data + ')');
         if ("Y" == jsonData.state) {
             JSESSIONID = jsonData.httpSessionId;
+            box.style.zIndex = "999";
             startGame();
         }
     });
 }
 
 function startGame() {
-    const container = new Container("canvas", JSESSIONID);
+    const container = new Container("fontCanvas", "backCanvas", JSESSIONID);
     container.start();
     const monitor = new NetworkMonitor(container);
     const socketClient = new SocketClient(container, serverurl, monitor);
     socketClient.init();
     new Keyboarder(container, socketClient).init();
+    const mouseController = new MouseController(container, socketClient);
+    const userConsole = new GameConsole(mouseController,container);
+    const resource = new Resource(userConsole);
+    resource.init();
 }
 

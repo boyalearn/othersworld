@@ -32,3 +32,28 @@ Controller.prototype.run = function (container) {
     }
 }
 
+const Resource = function (console) {
+    this.image = [];
+    this.index = 0;
+    this.console = console;
+}
+
+Resource.prototype.init = function () {
+    this.image.push("./images/background/tree.png");
+    this.image.push("./images/role/player1.png");
+    this.image.push("./images/role/player2.png");
+    this.loadResource();
+}
+Resource.prototype.loadResource = function () {
+    const _this = this;
+    if (this.index < this.image.length) {
+        var image = new Image();
+        image.src = this.image[this.index];
+        image.onload = function () {
+            _this.loadResource();
+        }
+        this.index++
+    } else {
+        this.console.init();
+    }
+}

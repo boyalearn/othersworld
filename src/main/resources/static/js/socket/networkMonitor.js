@@ -8,20 +8,26 @@ const NetworkMonitor = function (container) {
 };
 NetworkMonitor.prototype.loadContainer = function (data) {
     for (const key in data) {
-        if (ObjectType.TREE == data[key].type) {
+        if (ModelType.TREE == data[key].type) {
             const tree = new Tree();
             tree.init(100, 100, data[key].x, data[key].y);
             this.container.addObjectInContainer(key, tree)
             continue;
         }
-        if (ObjectType.PLAYER == data[key].type) {
+        if (ModelType.PLAYER == data[key].type) {
             if (this.container.sessionId == data[key].id) {
                 continue;
             }
-            const player = new Player();
+            const player = new Player(this.container);
             player.init(80, 80, data[key].x, data[key].y);
             player.isPlayer = false;
-            this.container.addObjectInContainer(key, player)
+            this.container.addObjectInContainer(key, player);
+            continue;
+        }
+        if (ModelType.BLOCK == data[key].type) {
+            const block = new Block();
+            block.init(50, 50, data[key].x, data[key].y);
+            this.container.addObjectInContainer(key, block);
             continue;
         }
     }
@@ -41,20 +47,24 @@ NetworkMonitor.prototype.changeRole = function (data) {
     }
 }
 
-NetworkMonitor.prototype.loadSession = function (data) {
-    const player = new Player();
+NetworkMonitor.prototype.loadSession = function (data, client) {
+    const player = new Player(this.container);
     player.init(80, 80, data.x, data.y);
     player.isPlayer = true;
     this.container.player = player;
-    this.container.addObjectInContainer(this.container.sessionId, player)
+    this.container.addObjectInContainer(this.container.sessionId, player);
+
+    const cmd = new Cmd();
+    cmd.cmd = CmdType.LOAD_RESOURCE;
+    client.send(JSON.stringify(cmd));
 }
 
 
-NetworkMonitor.prototype.monitor = function (evt) {
+NetworkMonitor.prototype.monitor = function (evt, client) {
     const cmd = eval('(' + evt.data + ')');
     const data = cmd.data;
     switch (cmd.cmd) {
-        case CmdType.LOAD_MAP:
+        case CmdType.LOAD_RESOURCE:
             this.loadContainer(data);
             break;
         case CmdType.REMOVE_ROLE:
@@ -64,7 +74,7 @@ NetworkMonitor.prototype.monitor = function (evt) {
             this.changeRole(data);
             break;
         case CmdType.LOAD_SESSION:
-            this.loadSession(data);
+            this.loadSession(data, client);
             break;
         default:
             this.container.stop();

@@ -2,7 +2,7 @@ package com.server.controller;
 
 import com.server.container.GameMemoryContainer;
 import com.server.dao.UserInfoDao;
-import com.server.entity.LoginEvt;
+import com.server.entity.LoginInfo;
 import com.server.entity.Move;
 import com.server.entity.Player;
 import com.server.entity.PlayerPosition;
@@ -23,9 +23,9 @@ public class HomeController {
 
     @RequestMapping("doLogin")
     @ResponseBody
-    public LoginEvt doLogin(HttpServletRequest request, User user) {
+    public LoginInfo doLogin(HttpServletRequest request, User user) {
         String httpSessionId = request.getSession().getId();
-        LoginEvt loginEvt = new LoginEvt();
+        LoginInfo loginEvt = new LoginInfo();
         loginEvt.setHttpSessionId(httpSessionId);
         if (StringUtils.isEmpty(user.getAccount())) {
             loginEvt.setState("N");

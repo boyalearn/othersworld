@@ -1,13 +1,15 @@
 var CmdType = {
     CHANGE_ROLE: "changeRole",
     REMOVE_ROLE: "removeRole",
-    LOAD_MAP: "loadMap",
+    LOAD_RESOURCE: "loadResource",
     LOAD_SESSION: "loadSession",
+    CREAT_MODEL: "createModel"
 }
 
-var ObjectType = {
+var ModelType = {
     TREE: 1,
     PLAYER: 2,
+    BLOCK: 3
 }
 
 var Cmd = function () {
@@ -20,6 +22,25 @@ var Move = function () {
     this.direction = null;
     this.x;
     this.y;
+}
+
+var GameModel = function () {
+    this.id = null;
+    this.type = null;
+    this.x = null;
+    this.y = null;
+};
+
+var Position = function () {
+    this.x = 0;
+    this.y = 0;
+}
+
+var Tool = function (position, area, model, type) {
+    this.position = position;
+    this.area = area;
+    this.model = model;
+    this.type = type;
 }
 
 /** Map *************************************************************/
@@ -36,7 +57,9 @@ Map.prototype.find = function (key) {
 }
 
 Map.prototype.remove = function (key) {
+    var remove = this.datastore[key];
     delete this.datastore[key];
+    return remove;
 }
 
 Map.prototype.showAll = function (callBack) {

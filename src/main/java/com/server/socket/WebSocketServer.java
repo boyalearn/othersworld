@@ -3,6 +3,7 @@ package com.server.socket;
 import com.server.container.GameMemoryContainer;
 import com.server.entity.Cmd;
 import com.server.entity.CmdType;
+import com.server.entity.GameModel;
 import com.server.entity.Move;
 import com.server.util.JSONUtil;
 import org.slf4j.Logger;
@@ -56,8 +57,6 @@ public class WebSocketServer {
         HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
         this.httpSessionId = httpSession.getId();
         webSocketSet.add(this); // 加入set中
-
-        GameMemoryContainer.findGameMonitor().initGameResource(this);
     }
 
     /**
@@ -83,8 +82,8 @@ public class WebSocketServer {
 
         Cmd<Object> cmd = (Cmd<Object>) JSONUtil.jsonToPoJo(message, Cmd.class);
         switch (cmd.getCmd()) {
-            case CmdType.LOAD_MAP:
-                GameMemoryContainer.findGameMonitor().loadScene(this);
+            case CmdType.LOAD_RESOURCE:
+                GameMemoryContainer.findGameMonitor().initGameResource(this);
                 break;
             case CmdType.CHANGE_ROLE:
                 Map<String, Object> data = (LinkedHashMap) cmd.getData();
@@ -94,6 +93,17 @@ public class WebSocketServer {
                 move.setDirection(String.valueOf(data.get("direction")));
                 move.setId(this.getHttpSessionId());
                 GameMemoryContainer.findGameMonitor().changeRole(this, move);
+                break;
+            case CmdType.CREAT_MODEL:
+                Map<String, Object> modelData = (LinkedHashMap) cmd.getData();
+                GameModel model = new GameModel();
+                model.setX(String.valueOf(modelData.get("x")));
+                model.setY(String.valueOf(modelData.get("y")));
+                model.setType(Integer.valueOf(String.valueOf(modelData.get("type"))));
+                GameMemoryContainer.findGameMonitor().createModel(this, model);
+                break;
+            case CmdType.LOAD_SESSION:
+                GameMemoryContainer.findGameMonitor().loadSession(this);
                 break;
             default:
                 broadcast(message);

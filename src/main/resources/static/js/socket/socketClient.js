@@ -25,7 +25,7 @@ SocketClient.prototype.init = function () {
     };
 
     this.ws.onmessage = function (evt) {
-        _this.monitor.monitor(evt, _this.container);
+        _this.monitor.monitor(evt, _this);
     };
 
     this.ws.onclose = function () {
@@ -36,7 +36,7 @@ SocketClient.prototype.init = function () {
 
 SocketClient.prototype.onOpen = function () {
     const cmd = new Cmd();
-    cmd.cmd = CmdType.LOAD_MAP
+    cmd.cmd = CmdType.LOAD_SESSION;
     this.send(JSON.stringify(cmd));
 }
 

@@ -10,9 +10,13 @@
         }
 
         #loginbox {
+            width: 100%;
+            height: 100%;
             position: fixed;
             z-index: 222;
-            background: #FFFFFF;
+            background-image: url("./images/login/login.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
         }
 
         #allcanvas {
@@ -21,13 +25,15 @@
             margin: 0 auto;
         }
 
-        #canvas {
+        canvas {
             position: absolute;
             bottom: 0px;
             left: 0px;
             z-index: 1;
+            display: -webkit-box;
         }
     </style>
+    <script src="js/data/structure.js"></script>
 </head>
 <body>
 <div id="loginbox">
@@ -38,19 +44,23 @@
     </div>
 </div>
 <div id="allcanvas">
-    <canvas id="canvas" width="800" height="600"></canvas>
+    <canvas id="backCanvas" width="800" height="600"></canvas>
+    <canvas id="fontCanvas" width="800" height="600"></canvas>
+
 </div>
 </body>
 <script type="text/javascript" src="js/object/player.js"></script>
 <script type="text/javascript" src="js/object/tree.js"></script>
 <script type="text/javascript" src="js/object/chat.js"></script>
-<script type="text/javascript" src="js/object/controller.js"></script>
-<script type="text/javascript" src="js/object/position.js"></script>
-<script type="text/javascript" src="js/object/keyboarder.js"></script>
+<script type="text/javascript" src="js/object/block.js"></script>
+<script type="text/javascript" src="js/controller/controller.js"></script>
+<script type="text/javascript" src="js/controller/keyboarder.js"></script>
+<script type="text/javascript" src="js/controller/mouse.js"></script>
+<script type="text/javascript" src="js/controller/console.js"></script>
 <script type="text/javascript" src="js/data/structure.js"></script>
 <script type="text/javascript" src="js/socket/socketClient.js"></script>
 <script type="text/javascript" src="js/socket/httpClient.js"></script>
 <script type="text/javascript" src="js/socket/networkMonitor.js"></script>
-<script type="text/javascript" src="./js/container.js"></script>
-<script type="text/javascript" src="./js/index.js"></script>
+<script type="text/javascript" src="js/container.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
 </html>

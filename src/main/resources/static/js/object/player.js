@@ -1,11 +1,16 @@
-const Player = function () {
+const Player = function (container) {
     this.width = null;
     this.height = null;
     this.x = 0;
     this.y = 0;
-    this.imgs = null;
-    this.isPlayer = true;
+    this.isPlayer = false;
     this.angle = 0 * Math.PI;
+    this.container = container;
+    this.imgs = [];
+    this.imgs[0] = new Image();
+    this.imgs[0].src = "./images/role/player1.png";
+    this.imgs[1] = new Image();
+    this.imgs[1].src = "./images/role/player2.png";
 
 }
 Player.prototype.init = function (width, height, x, y) {
@@ -13,21 +18,17 @@ Player.prototype.init = function (width, height, x, y) {
     this.height = height;
     this.x = parseFloat(x);
     this.y = parseFloat(y);
-    this.imgs = [];
-    this.imgs[0] = new Image();
-    this.imgs[0].src = "./images/role/player1.png";
-    this.imgs[1] = new Image();
-    this.imgs[1].src = "./images/role/player2.png";
+
 }
 
-Player.prototype.draw = function (container, x, y) {
-    container.canvasCtx.save();
+Player.prototype.draw = function (canvasCtx, x, y) {
+    canvasCtx.save();
     if (this.isPlayer) {
-        container.canvasCtx.translate(container.width / 2, container.height / 2);
+        canvasCtx.translate(this.container.width / 2, this.container.height / 2);
     } else {
-        container.canvasCtx.translate(x, y);
+        canvasCtx.translate(x, y);
     }
-    container.canvasCtx.rotate(this.angle)
-    container.canvasCtx.drawImage(this.imgs[Math.abs(parseInt(this.x) % 2)], -this.width * 0.5, -this.height * 0.5, this.width, this.height);
-    container.canvasCtx.restore();
+    canvasCtx.rotate(this.angle)
+    canvasCtx.drawImage(this.imgs[Math.abs(parseInt(this.x) % 2)], -this.width * 0.5, -this.height * 0.5, this.width, this.height);
+    canvasCtx.restore();
 }
